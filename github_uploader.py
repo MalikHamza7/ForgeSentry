@@ -1,68 +1,60 @@
 import subprocess
 import os
-import sys
 
-def run_command(command, description):
-    print(f"--- {description} ---")
+def run_git_command(args):
     try:
-        # We use shell=True for Windows compatibility with git
-        process = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        print(process.stdout)
+        result = subprocess.run(['git'] + args, capture_output=True, text=True, check=True)
+        print(result.stdout)
         return True
     except subprocess.CalledProcessError as e:
-        print(f"Error during {description}:")
+        print(f"Error during {' '.join(args)}:")
         print(e.stderr)
+        return False
+    except FileNotFoundError:
+        print("Error: 'git' command not found. Please ensure Git is installed and in your PATH.")
         return False
 
 def main():
-    print("🚀 ForgeSentry GitHub Auto-Uploader")
+    print("ForgeSentry GitHub Auto-Uploader")
     print("===============================")
 
-    # 1. Check if Git is installed
-    if not run_command("git --version", "Checking Git installation"):
-        print("❌ Git is not installed. Please install Git from git-scm.com")
+    # 1. Check Git version
+    if not run_git_command(['--version']):
         return
 
-    # 2. Check if .git exists, if not init
+    # 2. Configure Git Identity
+    print("Configuring Git Identity (MalikHamza7)...")
+    run_git_command(['config', 'user.email', 'malikhamza7@example.com'])
+    run_git_command(['config', 'user.name', 'MalikHamza7'])
+
+    # 3. Initialize repository if not already one
     if not os.path.exists(".git"):
-        run_command("git init", "Initializing Git repository")
-    
-    # NEW: Set identity automatically
-    run_command('git config user.email "MalikHamza7@users.noreply.github.com"', "Setting Git Email")
-    run_command('git config user.name "MalikHamza7"', "Setting Git Name")
-    
-    # 3. Ask for the GitHub Repo URL if origin doesn't exist
-    try:
-        check_remote = subprocess.run("git remote get-url origin", shell=True, capture_output=True, text=True)
-        if check_remote.returncode != 0:
-            repo_url = input("\n📝 Enter your GitHub Repository URL (e.g., https://github.com/your-username/your-repo.git): ").strip()
-            if not repo_url:
-                print("❌ Repository URL is required.")
-                return
-            run_command(f"git remote add origin {repo_url}", "Adding remote origin")
-    except Exception:
-        pass
+        print("Initializing new Git repository...")
+        run_git_command(['init'])
 
-    # 4. Git Add
-    run_command("git add .", "Staging all files and screenshots")
+    # 4. Add all files
+    print("Staging files...")
+    run_git_command(['add', '.'])
 
-    # 5. Git Commit
-    commit_msg = "Initial commit: ForgeSentry AI-Powered IoT Threat Intelligence System"
-    run_command(f'git commit -m "{commit_msg}"', "Committing changes")
+    # 5. Commit
+    commit_msg = "Final Titan V3 Update: Enterprise A-Z Threat Intelligence System"
+    print(f"Committing changes: {commit_msg}")
+    run_git_command(['commit', '-m', commit_msg])
 
-    # 6. Branch setup
-    run_command("git branch -M main", "Setting branch to main")
+    # 6. Branch
+    run_git_command(['branch', '-M', 'main'])
 
     # 7. Push
-    print("\n📦 Attempting to push to GitHub...")
-    print("💡 NOTE: If prompted for a password, use your 'Personal Access Token' (PAT).")
-    success = run_command("git push -u origin main", "Pushing to main branch")
-
-    if success:
-        print("\n✅ PROJECT SUCCESSFULLY UPLOADED TO GITHUB!")
-        print("Check your repository online now.")
-    else:
-        print("\n❌ Push failed. If it asked for a password, ensure you used a PAT.")
+    repo_url = input("Please enter your GitHub repository URL (e.g., https://github.com/MalikHamza7/ForgeSentry.git): ")
+    if repo_url:
+        print(f"Adding remote origin: {repo_url}")
+        # Remove existing origin if exists
+        subprocess.run(['git', 'remote', 'remove', 'origin'], capture_output=True)
+        run_git_command(['remote', 'add', 'origin', repo_url])
+        
+        print("Pushing to GitHub...")
+        print("Note: You may be prompted for your username and Personal Access Token (PAT).")
+        run_git_command(['push', '-u', 'origin', 'main', '--force'])
 
 if __name__ == "__main__":
     main()

@@ -236,26 +236,32 @@
 
         async function updateStats() {
             try {
-                // Fetch Blacklist
-                const res = await fetch(`${API_URL}/feed/blacklist`);
-                const data = await res.json();
+                // Fetch Recent Events
+                const resEvents = await fetch(`${API_URL}/feed/events`);
+                const events = await resEvents.json();
 
-                document.getElementById('stat-total-ips').innerText = data.ips ? data.ips.length : 0;
-                document.getElementById('threat-count').innerText = `${data.ips ? data.ips.length : 0} DETECTIONS`;
+                // Fetch Blacklist for total count
+                const resBL = await fetch(`${API_URL}/feed/blacklist`);
+                const blData = await resBL.json();
+
+                document.getElementById('stat-total-ips').innerText = blData.count || 0;
+                document.getElementById('threat-count').innerText = `${blData.count || 0} DETECTIONS`;
                 document.getElementById('api-status').innerText = "LIVE // SYSTEM_OK";
                 document.getElementById('api-status').style.borderColor = "#00d2ff";
 
-                // Populate Feed (Mocking real-time updates for display)
+                // Populate Feed with REAL data
                 const list = document.getElementById('threat-list');
-                if (data.ips && data.ips.length > 0) {
+                if (events && events.length > 0) {
                     list.innerHTML = "";
-                    data.ips.forEach(ip => {
+                    events.forEach(event => {
                         const li = document.createElement('li');
                         li.className = "threat-item";
+                        // Color label based on risk
+                        const colorClass = event.risk_score > 90 ? "var(--accent-red)" : "orange";
                         li.innerHTML = `
-                            <span class="label">MALICIOUS</span>
-                            <span class="ip">${ip}</span>
-                            <span class="time">${new Date().toLocaleTimeString()}</span>
+                            <span class="label" style="color:${colorClass}">${event.risk_score > 90 ? 'CRITICAL' : 'WARNING'}</span>
+                            <span class="ip">${event.actor_ip} <br><small style="color:#888">${event.behavior} | MITRE: ${event.mitre_id}</small></span>
+                            <span class="time">Risk: ${event.risk_score}/100</span>
                         `;
                         list.appendChild(li);
                     });

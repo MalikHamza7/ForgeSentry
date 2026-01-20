@@ -8,22 +8,27 @@
 
 **ForgeSentry** is an autonomous cybersecurity ecosystem that deploys high-interaction honeypots to capture real-time attacks, aggregates logs via the ELK stack, and utilizes a **Random Forest Machine Learning model** to classify attack vectors (e.g., Mirai Botnet, Brute Force, RCE) instantly.
 
+## 🖼️ Visual Evidence (Titan V3 Engine)
+
+![Titan Monitor](screenshots/forgesentry_titan_monitor.png)
+
+*ForgeSentry Live SOC Command Center demonstrating real-time MITRE ATT&CK mapping and Risk Scoring.*
+
 ---
 
 ## 🚀 Key Features
 
-*   **🍯 Dual-Layer Decoys**:
-    *   **Cowrie**: Simulates SSH/Telnet authentication to capture brute-force attempts and shell interaction.
-    *   **Conpot**: Simulates Industrial Control Systems (ICS/SCADA) and IoT devices (Modbus, S7).
-*   **🧠 Cognitive Engine**:
-    *   Trained on 10,000+ synthetic attack vectors (TF-IDF Vectorization + Random Forest).
-    *   **99% Accuracy** in distinguishing between benign traffic and known IoT botnet patterns.
-*   **⚡ Real-Time Detection API**:
-    *   FastAPI microservice that provides sub-millisecond threat classification.
-*   **📊 Visualization**:
-    *   **Live Web Portal**: Dedicated product landing page (`index.html`).
-    *   **Cyberpunk SOC Monitor**: Real-time threat visualization interface (`dashboard/monitor.html`).
-    *   **Kibana Integration**: Geolocation mapping and attack frequency analysis.
+*   **🍯 Managed Decoy Infrastructure**:
+    *   **Cowrie & Conpot Deployment**: High-interaction deception environment simulating critical IoT/ICS infrastructure (Modbus, S7, SSH).
+*   **🧠 Heuristic Cognitive Engine**:
+    *   **Advanced ML Classification**: Uses TF-IDF Vectorization & Random Forest Classifiers for zero-day threat detection.
+    *   **Behavioral Risk Scoring**: Dynamically calculates threat severity (0-100) based on command entropy and intent.
+*   **⚡ Enterprise-Grade Intel API**:
+    *   **MITRE ATT&CK® Mapping**: Automatic TTP identification (e.g., T1059.004) for every detected intrusion.
+    *   **RESTful Intelligence Feeds**: Real-time STIX 2.1 and JSON blacklist distribution for SIEM/Firewall synchronization.
+*   **📊 Visualization & Ops**:
+    *   **SOC Command Center**: Custom cyberpunk-inspired live monitor for real-time situational awareness.
+    *   **ELK Stack Integration**: Global attack heatmap and temporal trend analysis via Elasticsearch & Kibana.
 
 ## 🏗️ Architecture
 
@@ -119,7 +124,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## 👨‍💻 Author
 
-**Muhammad Hamza Iqbal** - [Connect on LinkedIn](https://www.linkedin.com/in/muhammad-hamza-iqbal-0b4413293/)
+**Muhammad Hamza Iqbal** - [Connect on LinkedIn](https://www.linkedin.com/in/muhammad-hamza-iqbal-0b4413293/) / [GitHub](https://github.com/MalikHamza7)
 **Intel Forge** — [*“Data Beyond History”*](https://intelforge.org)
 
 ## 📜 License
