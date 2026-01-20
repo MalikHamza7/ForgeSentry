@@ -11,7 +11,13 @@ es_data/
 *.rar
 *.zip
 
-# Exclude temporary data but INCLUDE the core AI model
+# Exclude local threat data and logs
 threat_feed.csv
+threat_feed.json
 malware_report.csv
+detection/threat_feed.json
+data_processing/extracted_logs.csv
+
+# Keep the Core AI model and Automation
 !ai_engine/model.pkl
+!github_uploader.py

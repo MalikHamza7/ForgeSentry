@@ -23,6 +23,7 @@
 *   **🧠 Heuristic Cognitive Engine**:
     *   **Advanced ML Classification**: Uses TF-IDF Vectorization & Random Forest Classifiers for zero-day threat detection.
     *   **Behavioral Risk Scoring**: Dynamically calculates threat severity (0-100) based on command entropy and intent.
+    *   **Adaptive Evolution**: Continuous learning loop that allows the model to ingest real-time attack data and retrain itself, ensuring immunity to emerging 0-day variants.
 *   **⚡ Enterprise-Grade Intel API**:
     *   **MITRE ATT&CK® Mapping**: Automatic TTP identification (e.g., T1059.004) for every detected intrusion.
     *   **RESTful Intelligence Feeds**: Real-time STIX 2.1 and JSON blacklist distribution for SIEM/Firewall synchronization.
@@ -87,6 +88,12 @@ Once your honeypot has been running and attracting hackers:
 python retrain_pipeline.py
 ```
 *This extracts real logs from Elasticsearch and retrains the model to adapt to new threats.*
+
+**Option C: Custom Data Injection**
+Inject your own threat intelligence or specific 0-day samples for immediate protection:
+1. Append samples to `data_processing/training_data.csv`.
+2. Execute `python train_model.py --input ../data_processing/training_data.csv`.
+3. The TITAN engine will instantaneously update its behavioral signatures.
 
 ### 3. Threat Intelligence & Sandbox
 **Payload Analysis**:
