@@ -1,0 +1,3 @@
+{"type":"index-pattern","id":"forgesentry-logs","attributes":{"title":"cowrie-*","timeFieldName":"timestamp"}}
+{"type":"dashboard","id":"threat-intelligence-center","attributes":{"title":"ForgeSentry Threat Center","description":"Live IoT Attack Monitoring","panelsJSON":"[]"}}
+{"type":"visualization","id":"geo-attack-map","attributes":{"title":"Global Attack Heatmap","visState":"{\"type\":\"tile_map\",\"params\":{\"addTooltip\":true,\"addGraticule\":false}}"}}

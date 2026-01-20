@@ -1,0 +1,17 @@
+__pycache__/
+.env
+.venv/
+venv/
+*.log
+.DS_Store
+cowrie/var/
+cowrie/etc/
+conpot/logs/
+es_data/
+*.rar
+*.zip
+
+# Exclude temporary data but INCLUDE the core AI model
+threat_feed.csv
+malware_report.csv
+!ai_engine/model.pkl
